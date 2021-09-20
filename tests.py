@@ -147,17 +147,17 @@ def enter_password_double_check(chrdriver: webdriver.Chrome, username, password,
     search_field = chrdriver.find_element_by_id("password")
     search_field.clear()
     search_field.send_keys(password)
-    search_field.submit()
-    check_url = chrdriver.current_url
+    chrdriver.find_element_by_id("login").click()
 
-    if check_url != successful_url:
+    if chrdriver.current_url != successful_url:
         search_field = chrdriver.find_element_by_id("username")
         search_field.clear()
         search_field.send_keys(username)
         search_field = chrdriver.find_element_by_id("password")
         search_field.clear()
         search_field.send_keys(password1)
-        search_field.submit()
-        check_url = chrdriver.current_url
+        chrdriver.find_element_by_id("login").click()
 
     return chrdriver
+
+
