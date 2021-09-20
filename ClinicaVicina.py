@@ -1,22 +1,15 @@
-import tests
+import Users
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 
 def Staging (chrdriver: webdriver.Chrome):
     chrdriver.get("https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/")
-    password="cardiocalm123456"
-    username="clinicavicina_oper"
+#Test sull' operatore
+    #pnome, pcognome, pnome_pdf, pcognome_pdf=Users.oper(chrdriver)
+#Test refertatore
+    Users.refertatore(chrdriver)
 
-    search_field = chrdriver.find_element_by_id("username")
-    search_field.clear()
-    search_field.send_keys(username)
 
-    search_field = chrdriver.find_element_by_id("password")
-    search_field.clear()
-    search_field.send_keys(password)
-    search_field.submit()
-
-    tests.test_Carica_Esame(chrdriver)
-    tests.test_Carica_Esame_PDF(chrdriver)
 
 
 

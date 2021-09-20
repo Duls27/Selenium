@@ -8,4 +8,5 @@ driver.maximize_window()
 
 ClinicaVicina.Staging(driver)
 
-driver.close()
+
+#driver.close()
