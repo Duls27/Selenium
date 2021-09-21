@@ -34,7 +34,7 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword):
     #da rimuovere una volta ultimato
     admin_usr="AmministratoreTest"
     ###########################
-    #email_managment.delete_all_emails(mail, mailpassword)
+    email_managment.delete_all_emails(mail, mailpassword)
     pm_usr=new_users.project_manager(chrdriver, admin_usr, password, password1)
     time.sleep(5)
     pm_tmp_pasw=email_managment.read_password_from_emails(mail, mailpassword)
@@ -52,6 +52,32 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword):
     search_field.clear()
     search_field.send_keys(password)
     chrdriver.find_element_by_id("cambio_password").click()
+  ########################################################################################################
+
+    email_managment.delete_all_emails(mail, mailpassword)
+    ref_usr = new_users.refertatore(chrdriver, admin_usr, password, password1)
+    time.sleep(5)
+    ref_tmp_pasw = email_managment.read_password_from_emails(mail, mailpassword)
+
+    search_field = chrdriver.find_element_by_id("username")
+    search_field.send_keys(ref_usr)
+    search_field = chrdriver.find_element_by_id("password")
+    search_field.send_keys(ref_tmp_pasw)
+# newpassword
+    search_field = chrdriver.find_element_by_id("nuova_password")
+    search_field.clear()
+    search_field.send_keys(password)
+
+    search_field = chrdriver.find_element_by_id("ridigita_nuova_password")
+    search_field.clear()
+    search_field.send_keys(password)
+    chrdriver.find_element_by_id("cambio_password").click()
+
+
+
+
+
+
 
 
 

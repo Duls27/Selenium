@@ -92,4 +92,46 @@ def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1
 
     return pm_usr
 
+def refertatore (chrdriver: webdriver.Chrome, admin_usr, password, password1):
+    tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
+                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/admin")
+
+    chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
+    chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / ul / li[3] / a").click()
+    chrdriver.find_element_by_xpath("/ html / body / div[5] / div / div / div / div[2] / div / form / input").click()
+
+    ref_name = chrdriver.find_element_by_id("nome")
+    ref_name.clear()
+    ref_name.send_keys("Sel_Test")
+
+    ref_sur = chrdriver.find_element_by_id("cognome")
+    ref_sur.clear()
+    ref_sur.send_keys("Refertatore")
+
+    ref_ddn = chrdriver.find_element_by_id("datadinascita")
+    ref_ddn.clear()
+    ref_ddn.send_keys("20-11-1998")
+
+    ref_ldn = chrdriver.find_element_by_id("luogodinascita")
+    ref_ldn.clear()
+    ref_ldn.send_keys("CardioCalm")
+
+    ref_mail = chrdriver.find_element_by_id("indirizzo_email")
+    ref_mail.clear()
+    ref_mail.send_keys("selenium.test.cc@gmail.com")
+
+    ref_cel = chrdriver.find_element_by_id("numero_cellulare")
+    ref_cel.clear()
+    ref_cel.send_keys("1234567890")
+
+    ref_usr = chrdriver.find_element_by_id("username")
+    ref_usr.clear()
+    ref_usr.send_keys("Reftest")
+    ref_usr = "Reftest"
+
+    chrdriver.find_element_by_id("firma_digitale").click()
+    chrdriver.find_element_by_xpath("/ html / body / div[5] / div / div / div / form[1] / div / div[2] / fieldset / dd[4] / select / option[2]").click()
+    chrdriver.find_element_by_xpath("/html/body/div[5]/div/div/div/form[1]/div/div[5]/fieldset/div/input").click()
+
+    return ref_usr
 
