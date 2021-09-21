@@ -14,11 +14,11 @@ def administrator (chrdriver: webdriver.Chrome, password, password1):
 #filliig New Administrator
     admin_name = chrdriver.find_element_by_id("nome")
     admin_name.clear()
-    admin_name.send_keys("Sel_Test_Admin")
+    admin_name.send_keys("Sel_Test")
 
     admin_sur = chrdriver.find_element_by_id("cognome")
     admin_sur.clear()
-    admin_sur.send_keys("Sel_Test_Admin")
+    admin_sur.send_keys("Admin")
 
     admin_ddn = chrdriver.find_element_by_id("datadinascita")
     admin_ddn.clear()
@@ -39,10 +39,57 @@ def administrator (chrdriver: webdriver.Chrome, password, password1):
     admin_usr = chrdriver.find_element_by_id("username")
     admin_usr.clear()
     admin_usr.send_keys("AmministratoreTest")
+    admin_usr="AmministratoreTest"
 
     chrdriver.find_element_by_id("autenticazione-0").click() #sirio
-    #chrdriver.find_element_by_id("Salva").click()  # sirio
+    chrdriver.find_element_by_id("Salva").click()  # sirio
 
     return admin_usr
+
+def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1):
+    tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
+                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/admin")
+
+    chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
+    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[1]/li[4]/ul/li[2]/a").click()
+    chrdriver.find_element_by_xpath("/ html / body / div[5] / div / div / div / div[2] / div / form / input").click()
+
+    # filliig New Administrator
+    pm_name = chrdriver.find_element_by_id("nome")
+    pm_name.clear()
+    pm_name.send_keys("Sel_Test")
+
+    pm_sur = chrdriver.find_element_by_id("cognome")
+    pm_sur.clear()
+    pm_sur.send_keys("ProjMan")
+
+    pm_ddn = chrdriver.find_element_by_id("datadinascita")
+    pm_ddn.clear()
+    pm_ddn.send_keys("20-11-1998")
+
+    pm_ldn = chrdriver.find_element_by_id("luogodinascita")
+    pm_ldn.clear()
+    pm_ldn.send_keys("CardioCalm")
+
+    pm_mail = chrdriver.find_element_by_id("indirizzo_email")
+    pm_mail.clear()
+    pm_mail.send_keys("selenium.test.cc@gmail.com")
+
+    pm_cel = chrdriver.find_element_by_id("numero_cellulare")
+    pm_cel.clear()
+    pm_cel.send_keys("1234567890")
+
+    pm_usr = chrdriver.find_element_by_id("username")
+    pm_usr.clear()
+    pm_usr.send_keys("PMtest")
+    pm_usr="PMtest"
+
+    chrdriver.find_element_by_id("dati_sensibili").click()
+    chrdriver.find_element_by_id("autenticazione-0").click()  # sirio
+    chrdriver.find_element_by_xpath("/ html / body / div[5] / div / div / div / div[3] / form / div / div[3] / fieldset / select / option[1]").click()
+    chrdriver.find_element_by_id("Salva").click()  # sirio
+    chrdriver.find_element_by_xpath("    / html / body / nav / div[2] / ul[2] / li[2] / form / button").click()
+
+    return pm_usr
 
 
