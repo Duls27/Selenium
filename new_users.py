@@ -2,14 +2,14 @@ from selenium import webdriver
 import  tests
 
 
-def administrator (chrdriver: webdriver.Chrome, password, password1):
-    username = "Amministratore"
-    successful_url = "https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/admin"
-    chrdriver = tests.enter_password_double_check(chrdriver, username, password, password1, successful_url)
+def administrator (chrdriver: webdriver.Chrome, password, password1,username):
+    username_old_admin = "Amministratore"
+    successful_url = "https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/admin"
+    chrdriver = tests.enter_password_double_check(chrdriver, username_old_admin, password, password1, successful_url)
 
     chrdriver.find_element_by_link_text("Gestione Utenti").click()
     chrdriver.find_element_by_link_text("Amministratori").click()
-    chrdriver.find_element_by_xpath("/html/body/div[5]/div/div/div/div[2]/div[2]/form/input").click()
+    chrdriver.find_element_by_xpath("/html/body/div[4]/div/div/div/div[2]/div[2]/form/input").click()
 
 #filliig New Administrator
     admin_name = chrdriver.find_element_by_id("nome")
@@ -38,17 +38,21 @@ def administrator (chrdriver: webdriver.Chrome, password, password1):
 
     admin_usr = chrdriver.find_element_by_id("username")
     admin_usr.clear()
-    admin_usr.send_keys("AmministratoreTest")
-    admin_usr="AmministratoreTest"
+    admin_usr.send_keys(username)
+    admin_usr=username
 
-    chrdriver.find_element_by_id("autenticazione-0").click() #sirio
+    if username=="Apitest":
+        chrdriver.find_element_by_id("autenticazione-0").click() #sirio
+    else:
+        chrdriver.find_element_by_id("autenticazione-2").click()  # sirio
+
     chrdriver.find_element_by_id("Salva").click()  # sirio
 
     return admin_usr
 
 def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1):
     tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
-                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/admin")
+                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/admin")
 
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
     chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[1]/li[4]/ul/li[2]/a").click()
@@ -94,7 +98,7 @@ def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1
 
 def refertatore (chrdriver: webdriver.Chrome, admin_usr, password, password1):
     tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
-                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-staging/admin")
+                                      "https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/admin")
 
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / ul / li[3] / a").click()
@@ -134,4 +138,99 @@ def refertatore (chrdriver: webdriver.Chrome, admin_usr, password, password1):
     chrdriver.find_element_by_xpath("/html/body/div[5]/div/div/div/form[1]/div/div[5]/fieldset/div/input").click()
 
     return ref_usr
+
+def struttura (chrdriver: webdriver.Chrome, admin_usr, password, password1):
+    successful_url = "https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/admin"
+    tests.enter_password_double_check(chrdriver, admin_usr, password, password1, successful_url)
+
+    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[1]/li[3]/a").click()
+    chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[3] / ul / li[2] / a").click()
+    chrdriver.find_element_by_id("Nuovo").click()
+
+    nome = chrdriver.find_element_by_id("nome")
+    nome.clear()
+    nome.send_keys("Structure_Test")
+
+    indirizzo = chrdriver.find_element_by_id("indirizzo")
+    indirizzo.clear()
+    indirizzo.send_keys("Radaelli")
+
+    civico = chrdriver.find_element_by_id("civico")
+    civico.clear()
+    civico.send_keys("27")
+
+    cap = chrdriver.find_element_by_id("cap")
+    cap.clear()
+    cap.send_keys("25018")
+
+    comune = chrdriver.find_element_by_id("comune")
+    comune.clear()
+    comune.send_keys("Montichiari")
+
+    provincia = chrdriver.find_element_by_id("provincia")
+    provincia.clear()
+    provincia.send_keys("Brescia")
+
+    tel = chrdriver.find_element_by_id("telefono")
+    tel.clear()
+    tel.send_keys("1234567890")
+
+    email = chrdriver.find_element_by_id("email")
+    email.clear()
+    email.send_keys("selenium.test.cc@gmail.com")
+
+    chrdriver.find_element_by_id("stato-1").click()
+
+    #operatore
+
+    chrdriver.find_element_by_id("upload_exam").click()
+    nome_oper = chrdriver.find_element_by_id("nome_operatore_site")
+    nome_oper.clear()
+    nome_oper.send_keys("Sel_Test")
+
+    cognome_oper = chrdriver.find_element_by_id("cognome_operatore_site")
+    cognome_oper.clear()
+    cognome_oper.send_keys("Operatore_Struttura")
+
+    username_oper = chrdriver.find_element_by_id("username_operatore_site")
+    username_oper.clear()
+    username_oper.send_keys("Opertest")
+    username_oper="Opertest"
+
+    email_oper = chrdriver.find_element_by_id("email_operatore_site")
+    email_oper.clear()
+    email_oper.send_keys("selenium.test.cc@gmail.com")
+
+######Referente Sanitario
+
+    nome_rs = chrdriver.find_element_by_id("nome_referente_tecnico")
+    nome_rs.clear()
+    nome_rs.send_keys("Sel_Test")
+    rs_nome="Sel_Test"
+
+    cognome_oper = chrdriver.find_element_by_id("cognome_referente_tecnico")
+    cognome_oper.clear()
+    cognome_oper.send_keys("Ref_Sanitario")
+    rs_cognome= "Ref_Sanitario"
+
+    email_rs = chrdriver.find_element_by_id("email_referente_tecnico")
+    email_rs.clear()
+    email_rs.send_keys("selenium.test.cc@gmail.com")
+
+    chrdriver.find_element_by_id("Salva").click()
+
+    return username_oper, rs_nome, rs_cognome
+
+
+
+
+
+
+
+
+
+
+
+
+
 

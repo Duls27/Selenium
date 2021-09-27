@@ -1,7 +1,10 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-def test_Carica_Esame(chrdriver: webdriver.Chrome):
+def test_Carica_Esame(chrdriver: webdriver.Chrome, username, password, path_desktop_screenshot, path_esame, path_diario):
+
+    succesfoul_url=""
+    enter_password_double_check(chrdriver, username, password, password, succesfoul_url)
 
     chrdriver.find_element_by_link_text("Carica").click()
     chrdriver.find_element_by_link_text("Esame").click()
@@ -25,15 +28,13 @@ def test_Carica_Esame(chrdriver: webdriver.Chrome):
     note.clear()
     note.send_keys("TestSelenium_CaricaE")
 
-    path_esame = "C:/Users/simon/Desktop/SeleniumTestCarica.pdf"
     chooseFile = chrdriver.find_element_by_id("file_exam")
     chooseFile.send_keys(path_esame)
 
-    path_diario = "C:/Users/simon/Desktop/Diario.pdf"
     chooseFile = chrdriver.find_element_by_id("file_diary")
     chooseFile.send_keys(path_diario)
 
-    chrdriver.save_screenshot(filename="C:/Users/simon/Desktop/ScreenShotSelenium/CaricaEsame.png")
+    chrdriver.save_screenshot(filename=path_desktop_screenshot+"\caricaEsame.png")
     chrdriver.find_element_by_id("Invia").click()
 
     return (paziente_nome, paziente_cognome)
@@ -148,9 +149,10 @@ def enter_password_double_check(chrdriver: webdriver.Chrome, username, password,
     search_field.clear()
     search_field.send_keys(password)
     search_field.submit()
+    chrdriver.switch_to_alert().accept()
+    current_url=chrdriver.current_url
 
-
-    if chrdriver.current_url != successful_url:
+    if current_url != successful_url:
         search_field = chrdriver.find_element_by_id("username")
         search_field.clear()
         search_field.send_keys(username)
@@ -158,6 +160,7 @@ def enter_password_double_check(chrdriver: webdriver.Chrome, username, password,
         search_field.clear()
         search_field.send_keys(password1)
         chrdriver.find_element_by_id("login").click()
+        chrdriver.switch_to_alert().accept()
 
     return chrdriver
 
