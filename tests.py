@@ -1,10 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 
-def test_Carica_Esame(chrdriver: webdriver.Chrome, username, password, path_desktop_screenshot, path_esame, path_diario):
-
-    succesfoul_url=""
-    enter_password_double_check(chrdriver, username, password, password, succesfoul_url)
+def test_Carica_Esame(chrdriver: webdriver.Chrome, path_desktop_screenshot, path_esame, path_diario):
 
     chrdriver.find_element_by_link_text("Carica").click()
     chrdriver.find_element_by_link_text("Esame").click()
@@ -34,12 +32,12 @@ def test_Carica_Esame(chrdriver: webdriver.Chrome, username, password, path_desk
     chooseFile = chrdriver.find_element_by_id("file_diary")
     chooseFile.send_keys(path_diario)
 
-    chrdriver.save_screenshot(filename=path_desktop_screenshot+"\caricaEsame.png")
+    chrdriver.save_screenshot(filename=str(path_desktop_screenshot)+"\caricaEsame.png")
     chrdriver.find_element_by_id("Invia").click()
 
     return (paziente_nome, paziente_cognome)
 
-def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome):
+def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome, path_desktop_screenshot, path_esame, path_diario):
 
     chrdriver.find_element_by_link_text("Carica").click()
     chrdriver.find_element_by_link_text("Esame PDF").click()
@@ -60,15 +58,15 @@ def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome):
     note.clear()
     note.send_keys("TestSelenium_CaricaE_PDF")
 
-    path_esame = "C:/Users/simon/Desktop/SeleniumTestCarica.pdf"
+    chrdriver.find_element_by_xpath("//select[@name='inp_sel_sla']/option[text()='PDF 1w']").click()
+
     chooseFile = chrdriver.find_element_by_id("file_exam")
     chooseFile.send_keys(path_esame)
 
-    path_diario = "C:/Users/simon/Desktop/Diario.pdf"
     chooseFile = chrdriver.find_element_by_id("file_diary")
     chooseFile.send_keys(path_diario)
-
-    chrdriver.save_screenshot(filename="C:/Users/simon/Desktop/ScreenShotSelenium/CaricaEsamePDF.png")
+    print(str(path_desktop_screenshot)+"\CaricaEsamePDF.png")
+    chrdriver.save_screenshot(filename=str(path_desktop_screenshot)+"\CaricaEsamePDF.png")
     chrdriver.find_element_by_id("Invia").click()
 
     return (paziente_nome, paziente_cognome)
@@ -137,8 +135,11 @@ def test_ilmioaccount (chrdriver: webdriver.Chrome, password):
     utente_cp.clear()
     utente_cp.send_keys(password)
 
-def test_Referta_Esame(chrdriver: webdriver.Chrome):
-    print("Da implementareeee")
+def test_Referta_Esame(chrdriver: webdriver.Chrome, path_screenshots, path_referto,p1,p2):
+    exam=chrdriver.fin
+    action = ActionChains(chrdriver)
+    action.double_click(exam).perform()
+
 
 def enter_password_double_check(chrdriver: webdriver.Chrome, username, password, password1, successful_url):
     search_field = chrdriver.find_element_by_id("username")
@@ -149,7 +150,7 @@ def enter_password_double_check(chrdriver: webdriver.Chrome, username, password,
     search_field.clear()
     search_field.send_keys(password)
     search_field.submit()
-    chrdriver.switch_to_alert().accept()
+    #chrdriver.switch_to_alert().accept()
     current_url=chrdriver.current_url
 
     if current_url != successful_url:
@@ -160,8 +161,14 @@ def enter_password_double_check(chrdriver: webdriver.Chrome, username, password,
         search_field.clear()
         search_field.send_keys(password1)
         chrdriver.find_element_by_id("login").click()
-        chrdriver.switch_to_alert().accept()
+        #chrdriver.switch_to_alert().accept()
 
     return chrdriver
+
+
+
+
+
+
 
 

@@ -7,29 +7,35 @@ password = "cardiocalm123456"
 password1 = "pippo1234"
 
 def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword):
-    chrdriver.get("https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/")
+    chrdriver.get("https://telecardiologia.cardiocalm.com/testing/")
 
     ################################# NEW ADMINISTRATOR ###########################################################
-    
     #delete emails from gmail
     email_managment.delete_all_emails(mail, mailpassword)
     # Creazione nuovo utente
-    admin_usr = new_users.administrator(chrdriver, password, password1, "Admintest")
+    admin_usr = new_users.administrator(chrdriver, password, password1, "AdminTest09")
+    chrdriver.find_element_by_xpath("// *[ @ id = 'navbar'] / ul[2] / li[2] / form / button").click()
     time.sleep(3.0)
     #read one time password mail
     admin_psw = email_managment.read_password_from_emails(mail, mailpassword)
     #enter reset password
-    chrdriver=tests.enter_password_double_check(chrdriver,admin_usr,admin_psw,admin_psw,"https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/index/cambio-Password")
-    #newpassword
-    search_field = chrdriver.find_element_by_id("nuova_password")
-    search_field.clear()
-    search_field.send_keys(password)
+    usr = chrdriver.find_element_by_id("username")
+    usr.clear()
+    usr.send_keys(admin_usr)
 
-    search_field = chrdriver.find_element_by_id("ridigita_nuova_password")
-    search_field.clear()
-    search_field.send_keys(password)
+    pwd = chrdriver.find_element_by_id("password")
+    pwd.clear()
+    pwd.send_keys(admin_psw)
+
+    nuova_psw = chrdriver.find_element_by_id("nuova_password")
+    nuova_psw.clear()
+    nuova_psw.send_keys(password)
+
+    double_nuova_psw = chrdriver.find_element_by_id("ridigita_nuova_password")
+    double_nuova_psw.clear()
+    double_nuova_psw.send_keys(password)
     chrdriver.find_element_by_id("cambio_password").click()
-    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[2]/li[2]/form/button").click()
+    chrdriver.find_element_by_xpath("//*[@id='navbar']/ul[2]/form/button").click()
     ################################################# PROJECT MANAGER  ###############################################
     
     email_managment.delete_all_emails(mail, mailpassword)
@@ -49,14 +55,17 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword):
     search_field = chrdriver.find_element_by_id("ridigita_nuova_password")
     search_field.clear()
     search_field.send_keys(password)
-    chrdriver.find_element_by_id("cambio_password").click()
-    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[2]/li[2]/form/button").click() #logout
-
+    chrdriver.find_element_by_xpath("//*[@id='navbar']/ul[2]/form/button").click() #logout
+   
+    
   ###################################### REFERTATORE #################################################################
-
+    admin_usr="testAdminSelenium"
+    pm_usr="test"
     email_managment.delete_all_emails(mail, mailpassword)
     ref_usr = new_users.refertatore(chrdriver, admin_usr, password, password1)
-    time.sleep(5)
+    chrdriver.find_element_by_xpath("//*[@id='navbar']/ul[2]/li[2]/form/button").click()
+    time.sleep(3)
+
     ref_tmp_pasw = email_managment.read_password_from_emails(mail, mailpassword)
 
     search_field = chrdriver.find_element_by_id("username")
@@ -72,34 +81,18 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword):
     search_field.clear()
     search_field.send_keys(password)
     chrdriver.find_element_by_id("cambio_password").click()
-    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[2]/li[2]/form/button").click()  # logout
+    chrdriver.find_element_by_xpath("//*[@id='navbar']/ul[2]/form/button").click()  # logout
+    chrdriver.switch_to_alert().accept()
+
 ############################################ NEW STRUCTURE ######################################################
 
-    username_old_admin = "Amministratore"
-    oper_usr,rs_nome,rs_cognome = new_users.struttura(chrdriver, username_old_admin, password, password1)
+    oper_usr,rs_nome,rs_cognome = new_users.struttura(chrdriver, admin_usr, password, password1)
 
 ####################################### ADMIN SOLO API ###########################################
-
-    # delete emails from gmail
-    email_managment.delete_all_emails(mail, mailpassword)
     # Creazione nuovo utente
-    api_usr = new_users.administrator(chrdriver, password, password1, "Apitest")
-    time.sleep(3.0)
-    # read one time password mail
-    api_psw = email_managment.read_password_from_emails(mail, mailpassword)
-    # enter reset password
-    chrdriver = tests.enter_password_double_check(chrdriver, api_usr, api_psw, api_psw,
-                    "https://telecardiologia.cardiocalm.com/clinicavicinaweb-testing/index/cambio-Password")
-    # newpassword
-    search_field = chrdriver.find_element_by_id("nuova_password")
-    search_field.clear()
-    search_field.send_keys(password)
+    api_usr = new_users.administrator(chrdriver, password, password1, "Apitest1")
+    chrdriver.find_element_by_xpath("// *[ @ id = 'navbar'] / ul[2] / li[2] / form / button").click()
 
-    search_field = chrdriver.find_element_by_id("ridigita_nuova_password")
-    search_field.clear()
-    search_field.send_keys(password)
-    chrdriver.find_element_by_id("cambio_password").click()
-    chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[2]/li[2]/form/button").click() #return home
 
     return {"admin": admin_usr, "pm": pm_usr, "refertatore":ref_usr, "admin_api":api_usr, "oper":oper_usr}, password
 
