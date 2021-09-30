@@ -8,7 +8,7 @@ def test_Carica_Esame(chrdriver: webdriver.Chrome, path_desktop_screenshot, path
     chrdriver.find_element_by_link_text("Esame").click()
 
     chrdriver.find_element_by_xpath("//select[@name='sel_tipiesame']/option[text()='ECG - ECG']").click()
-    chrdriver.find_element_by_xpath("//select[@name='inp_sel_sla']/option[text()='ECG ext 24h']").click()
+
 
     paziente_nome = chrdriver.find_element_by_id("inp_nome_paziente")
     paziente_nome.clear()
