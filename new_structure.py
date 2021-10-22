@@ -6,14 +6,14 @@ import  new_users, tests
 password = "cardiocalm123456"
 password1 = "pippo1234"
 
-def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword,new_admin,new_projectmanager,new_cardiologo, new_operatore,new_struttura,new_api):
-    chrdriver.get("https://telecardiologia.cardiocalm.com/testing/")
+def complete_structure(link_piattaforma,chrdriver: webdriver.Chrome, mail, mailpassword,new_admin,new_projectmanager,new_cardiologo, new_operatore,new_struttura,new_api):
+    chrdriver.get(link_piattaforma)
 
     ################################# NEW ADMINISTRATOR ###########################################################
     #delete emails from gmail
     email_managment.delete_all_emails(mail, mailpassword)
     # Creazione nuovo utente
-    admin_usr = new_users.administrator(chrdriver, password, password1, new_admin)
+    admin_usr = new_users.administrator(link_piattaforma,chrdriver, password, password1, new_admin)
     chrdriver.find_element_by_xpath("// *[ @ id = 'navbar'] / ul[2] / li[2] / form / button").click()
     time.sleep(3.0)
     #read one time password mail
@@ -40,7 +40,7 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword,new_admin
     ################################################# PROJECT MANAGER  ###############################################
     
     email_managment.delete_all_emails(mail, mailpassword)
-    pm_usr=new_users.project_manager(chrdriver, admin_usr, password, password1, new_projectmanager)
+    pm_usr=new_users.project_manager(link_piattaforma,chrdriver, admin_usr, password, password1, new_projectmanager)
     time.sleep(3.0)
     pm_tmp_psw=email_managment.read_password_from_emails(mail, mailpassword)
 
@@ -65,7 +65,7 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword,new_admin
     admin_usr="testAdminSelenium"
     pm_usr="test"
     email_managment.delete_all_emails(mail, mailpassword)
-    ref_usr = new_users.refertatore(chrdriver, admin_usr, password, password1,new_cardiologo)
+    ref_usr = new_users.refertatore(link_piattaforma,chrdriver, admin_usr, password, password1,new_cardiologo)
     chrdriver.find_element_by_xpath("//*[@id='navbar']/ul[2]/li[2]/form/button").click()
     time.sleep(3)
 
@@ -89,7 +89,7 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword,new_admin
 
 ############################################ NEW STRUCTURE ######################################################
 
-    oper_usr,rs_nome,rs_cognome = new_users.struttura(chrdriver, admin_usr, password, password1,new_operatore, new_struttura)
+    oper_usr,rs_nome,rs_cognome = new_users.struttura(link_piattaforma,chrdriver, admin_usr, password, password1,new_operatore, new_struttura)
 
     oper_tmp_pasw = email_managment.read_password_from_emails(mail, mailpassword)
 
@@ -112,7 +112,7 @@ def complete_structure(chrdriver: webdriver.Chrome, mail, mailpassword,new_admin
 
 ####################################### ADMIN SOLO API ###########################################
     # Creazione nuovo utente
-    api_usr = new_users.administrator(chrdriver, password, password1, new_api)
+    api_usr = new_users.administrator(link_piattaforma,chrdriver, password, password1, new_api)
     chrdriver.find_element_by_xpath("// *[ @ id = 'navbar'] / ul[2] / li[2] / form / button").click()
 
 

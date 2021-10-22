@@ -4,15 +4,20 @@ import  new_structure, os, call_to_test
 
 desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 
-################################### INFORMAZIONI IMPORTANTI ########################################à
+################################### INFORMAZIONI IMPORTANTI ########################################
+#link_piattaforma_da_testare
+link_piattaforma="https://telecardiologia.cardiocalm.com/testing/"
+
+#mail_ricezione_nuova_struttura_ed_utenti
 mail_ricezione_test = "selenium.test.cc@gmail.com"
-password = "SeleniumTest123456"
+password_mail= "SeleniumTest123456"
+
+#path_ai_fil_per_esami
 path_diario = desktop_path + '\Diario.pdf'
 path_esame = desktop_path + '\SeleniumTestCarica.pdf'
-#os.mkdir(desktop_path + '\selenium_screenshots')
 path_schreenshots=desktop_path + '\selenium_screenshots'
 
-#nomi_struttura
+#nomi_nuova_struttura
 new_admin="amministratore_test"
 new_projectmanager="projectmanager_test"
 new_cardiologo="cardiologo_test"
@@ -28,8 +33,9 @@ driver = webdriver.Chrome()
 driver.implicitly_wait(30)
 driver.maximize_window()
 
-
-usernames, psw = new_structure.complete_structure(driver, mail_ricezione_test, password,
+########################## Per crare struttura completa togliere commento #########################################
+'''
+usernames, psw = new_structure.complete_structure(link_piattaforma,driver, mail_ricezione_test, password_mail,
                                                   new_admin=new_admin,
                                                   new_projectmanager=new_projectmanager,
                                                   new_cardiologo=new_cardiologo,
@@ -41,17 +47,17 @@ with open(desktop_path+"\CredenzialiTest.txt", 'w') as f:
     for key, value in usernames.items():
         f.write('%s:%s\n' % (key, value))
         f.write("psw_"+key+": "+ psw + "\n")
-
-
-
 '''
-usernames=["Opertest09","RefTest09"]
+#################################### Test Basic invio, ricezione, apertura ############################################
+
+#os.mkdir(desktop_path + '\selenium_screenshots')
+
+usernames=[new_operatore,new_cardiologo]
 pwd="cardiocalm123456"
 
-p1,p2=call_to_test.basic_tests_operatore(driver, usernames[0], pwd, path_diario, path_esame, path_schreenshots)
-p1=["TestSelenium_CaricaE_PDF","TestSelenium_CaricaE_PDF"]
-p2=["TestSelenium_CaricaE", "TestSelenium_CaricaE"]
-#call_to_test.basic_tests_refertatore(driver,usernames[1],"pippo1234",path_diario,path_schreenshots,p1,p2)
-'''
-#driver.close()
+#pc,pcPDF=call_to_test.basic_tests_operatore(link_piattaforma,driver, usernames[0], pwd, path_diario, path_esame, path_schreenshots)
+pc="CnTYygtV"
+pcPDF="N7msclwc"
+call_to_test.basic_tests_refertatore(link_piattaforma,driver,new_cardiologo,pwd,path_diario,path_schreenshots, pc)
+driver.close()
 

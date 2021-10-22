@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver import ActionChains
+import string, random
 from selenium.common.exceptions import NoSuchElementException
 
 def test_Carica_Esame(chrdriver: webdriver.Chrome, path_desktop_screenshot, path_esame, path_diario):
@@ -9,10 +10,12 @@ def test_Carica_Esame(chrdriver: webdriver.Chrome, path_desktop_screenshot, path
 
     chrdriver.find_element_by_xpath("//select[@name='sel_tipiesame']/option[text()='ECG - ECG']").click()
 
+    length_of_string = 8
+    nome_paziente = (''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length_of_string)))
 
     paziente_nome = chrdriver.find_element_by_id("inp_nome_paziente")
     paziente_nome.clear()
-    paziente_nome.send_keys("TestSelenium_CaricaE")
+    paziente_nome.send_keys(nome_paziente)
 
     paziente_cognome = chrdriver.find_element_by_id("inp_cognome_paziente")
     paziente_cognome.clear()
@@ -35,16 +38,19 @@ def test_Carica_Esame(chrdriver: webdriver.Chrome, path_desktop_screenshot, path
     chrdriver.save_screenshot(filename=str(path_desktop_screenshot)+"\caricaEsame.png")
     chrdriver.find_element_by_id("Invia").click()
 
-    return (paziente_nome, paziente_cognome)
+    return nome_paziente
 
 def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome, path_desktop_screenshot, path_esame, path_diario):
 
     chrdriver.find_element_by_link_text("Carica").click()
     chrdriver.find_element_by_link_text("Esame PDF").click()
 
+    length_of_string = 8
+    nome_paziente=(''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length_of_string)))
+
     paziente_nome = chrdriver.find_element_by_id("inp_nome_paziente")
     paziente_nome.clear()
-    paziente_nome.send_keys("TestSelenium_CaricaE_PDF")
+    paziente_nome.send_keys(nome_paziente)
 
     paziente_cognome = chrdriver.find_element_by_id("inp_cognome_paziente")
     paziente_cognome.clear()
@@ -58,8 +64,6 @@ def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome, path_desktop_screenshot, 
     note.clear()
     note.send_keys("TestSelenium_CaricaE_PDF")
 
-    chrdriver.find_element_by_xpath("//select[@name='inp_sel_sla']/option[text()='PDF 1w']").click()
-
     chooseFile = chrdriver.find_element_by_id("file_exam")
     chooseFile.send_keys(path_esame)
 
@@ -69,7 +73,7 @@ def test_Carica_Esame_PDF(chrdriver: webdriver.Chrome, path_desktop_screenshot, 
     chrdriver.save_screenshot(filename=str(path_desktop_screenshot)+"\CaricaEsamePDF.png")
     chrdriver.find_element_by_id("Invia").click()
 
-    return (paziente_nome, paziente_cognome)
+    return nome_paziente
 
 def test_ilmioaccount (chrdriver: webdriver.Chrome, password):
 
@@ -94,10 +98,7 @@ def test_ilmioaccount (chrdriver: webdriver.Chrome, password):
 
     utente_datanascita = chrdriver.find_element_by_id("datadinascita")
     utente_datanascita.clear()
-    try:
-        utente_datanascita.send_keys("letters") #non dovrebbe accettarle
-    except:
-        utente_datanascita.send_keys("20-11-1998")
+    utente_datanascita.send_keys("20-11-1998")
 
     utente_ldn = chrdriver.find_element_by_id("luogodinascita")
     utente_ldn.clear()
@@ -135,10 +136,21 @@ def test_ilmioaccount (chrdriver: webdriver.Chrome, password):
     utente_cp.clear()
     utente_cp.send_keys(password)
 
-def test_Referta_Esame(chrdriver: webdriver.Chrome, path_screenshots, path_referto,p1,p2):
-    exam=chrdriver.fin
-    action = ActionChains(chrdriver)
-    action.double_click(exam).perform()
+    chrdriver.find_element_by_id("Salva")
+
+def test_Referta_Esame(chrdriver: webdriver.Chrome, path_screenshots, path_referto,paziente):
+
+    tableecg = chrdriver.find_element_by_xpath("//*[@id='idTbodyEcgdarefertare']")
+    entries = tableecg.find_elements_by_tag_name("tr")
+    for entry in entries:
+        headers = entry.find_elements_by_tag_name("td")
+        if headers[6].text==paziente:
+            n_esame=headers[0].text
+            break
+    esame_da_refertare = n_esame+"_tr_ecg_da_refertare"
+    chrdriver.find_element_by_id(esame_da_refertare).click()
+    chrdriver.find_element_by_xpath("//*[@id='id_div_referta_esame']/button").click()
+
 
 
 def enter_password_double_check(chrdriver: webdriver.Chrome, username, password, password1, successful_url):

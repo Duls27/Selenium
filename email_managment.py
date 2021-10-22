@@ -2,9 +2,6 @@ import imaplib
 import email
 from email.header import decode_header
 
-
-
-
 def read_password_from_emails (username, password):
     def clean(text):
         # clean text for creating a folder

@@ -3,9 +3,9 @@ from selenium.webdriver import ActionChains
 import  tests
 
 
-def administrator (chrdriver: webdriver.Chrome, password, password1,username):
+def administrator (link_piattaforma,chrdriver: webdriver.Chrome, password, password1,username):
     username_old_admin = "Amministratore"
-    successful_url = "https://telecardiologia.cardiocalm.com/testing/admin"
+    successful_url = link_piattaforma +"admin"
     chrdriver = tests.enter_password_double_check(chrdriver, username_old_admin, password, password1, successful_url)
 
     chrdriver.find_element_by_link_text("Gestione Utenti").click()
@@ -52,9 +52,9 @@ def administrator (chrdriver: webdriver.Chrome, password, password1,username):
 
     return admin_usr
 
-def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1,new_projectmanager):
-    tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
-                                      "https://telecardiologia.cardiocalm.com/testing/admin")
+def project_manager (link_piattaforma,chrdriver: webdriver.Chrome, admin_usr, password, password1,new_projectmanager):
+    successful_url=link_piattaforma+"admin"
+    tests.enter_password_double_check(chrdriver, admin_usr, password, password1,successful_url)
 
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
     chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[1]/li[4]/ul/li[2]/a").click()
@@ -98,9 +98,9 @@ def project_manager (chrdriver: webdriver.Chrome, admin_usr, password, password1
 
     return pm_usr
 
-def refertatore (chrdriver: webdriver.Chrome, admin_usr, password, password1,cardiologo):
-    tests.enter_password_double_check(chrdriver, admin_usr, password, password1,
-                                      "https://telecardiologia.cardiocalm.com/testing/admin")
+def refertatore (link_piattaforma,chrdriver: webdriver.Chrome, admin_usr, password, password1,cardiologo):
+    successful_url = link_piattaforma + "admin"
+    tests.enter_password_double_check(chrdriver, admin_usr, password, password1, successful_url)
 
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / a").click()
     chrdriver.find_element_by_xpath("/ html / body / nav / div[2] / ul[1] / li[4] / ul / li[3] / a").click()
@@ -147,8 +147,8 @@ def refertatore (chrdriver: webdriver.Chrome, admin_usr, password, password1,car
 
     return ref_usr
 
-def struttura (chrdriver: webdriver.Chrome, admin_usr, password, password1,new_operatore,new_struttura):
-    successful_url = "https://telecardiologia.cardiocalm.com/testing/admin"
+def struttura (link_piattaforma,chrdriver: webdriver.Chrome, admin_usr, password, password1,new_operatore,new_struttura):
+    successful_url = link_piattaforma+"admin"
     tests.enter_password_double_check(chrdriver, admin_usr, password, password1, successful_url)
 
     chrdriver.find_element_by_xpath("/html/body/nav/div[2]/ul[1]/li[3]/a").click()
